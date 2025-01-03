@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>!</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 3rem;
+            color: white;
+            text-shadow: 3px 3px 20px rgba(0,0,0,0.7);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        h1:hover {
+            transform: scale(1.1);
+        }
+
+        #confetti {
+            position: absolute;
+            top: -20%;
+            left: 0;
+            width: 150%;
+            height: 150%;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 id="clickme" onclick="prankMessage()">Hi Guys It's your boi Manoj. AKA JAGGU <br/><span style="color: rgb(84, 255, 89);">Click Here!</span></h2>
+        <canvas id="confetti"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const confettiPieces = [];
+        for (let i = 0; i < 100; i++) {
+            confettiPieces.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 10 + 5,
+                color: `hsl(${Math.random() * 360}, 100%, 50%)`,
+                speedX: Math.random() * 5 - 2.5,
+                speedY: Math.random() * 5 + 2
+            });
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiPieces.forEach((piece, index) => {
+                ctx.fillStyle = piece.color;
+                ctx.beginPath();
+                ctx.arc(piece.x, piece.y, piece.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                piece.y += piece.speedY;
+                piece.x += piece.speedX;
+
+                if (piece.y > canvas.height) {
+                    piece.y = 0;
+                    piece.x = Math.random() * canvas.width;
+                }
+            });
+        }
+
+        function prankMessage() {
+            var clickme = document.getElementById("clickme");
+            clickme.innerHTML="It's a Prank! <br/> Don't take it seriously!"
+            setInterval(drawConfetti, 30);
+        }
+    </script>
+</body>
+</html>
